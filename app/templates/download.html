@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Download File - GhostDrop{% endblock %}
+
+{% block content %}
+<header class="header">
+    <div class="logo">
+        <span class="logo-icon">👻</span>
+        <h1>GhostDrop</h1>
+    </div>
+</header>
+
+<div class="card">
+    <div class="file-preview">
+        <div class="file-icon">📄</div>
+        <h2>{{ file.original_filename }}</h2>
+        <p style="color: var(--text-muted); margin-top: 0.5rem;">{{ file.file_size_human }}</p>
+    </div>
+    
+    <div class="file-details">
+        <div class="detail-row">
+            <span class="detail-label">Uploaded</span>
+            <span class="detail-value">{{ file.created_at.strftime('%Y-%m-%d %H:%M UTC') }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Expires</span>
+            <span class="detail-value">{{ file.expires_at.strftime('%Y-%m-%d %H:%M UTC') }}</span>
+        </div>
+        {% if file.expiry_type == 'onetime' %}
+        <div class="detail-row">
+            <span class="detail-label">Type</span>
+            <span class="detail-value" style="color: var(--warning);">🔥 One-Time Download</span>
+        </div>
+        {% elif file.expiry_type == 'download' %}
+        <div class="detail-row">
+            <span class="detail-label">Downloads</span>
+            <span class="detail-value">{{ file.current_downloads }} / {{ file.max_downloads }}</span>
+        </div>
+        {% endif %}
+        {% if file.password_protected %}
+        <div class="detail-row">
+            <span class="detail-label">Protection</span>
+            <span class="detail-value" style="color: var(--warning);">🔒 Password Required</span>
+        </div>
+        {% endif %}
+    </div>
+    
+    {% if file.expiry_type == 'onetime' %}
+    <div class="alert alert-warning" style="margin-top: 1.5rem;">
+        <span>⚠</span>
+        <span><strong>One-time download:</strong> This file will be permanently deleted after downloading.</span>
+    </div>
+    {% endif %}
+    
+    {% if file.password_protected %}
+    <div class="form-group" style="margin-top: 1.5rem;">
+        <label class="form-label" for="download-password">Enter Password</label>
+        <input type="password" id="download-password" class="input-field" 
+               placeholder="Enter the file password">
+    </div>
+    {% endif %}
+    
+    <button id="download-btn" class="btn btn-primary btn-block" 
+            data-code="{{ code }}" 
+            data-expiry="{{ file.expiry_type }}"
+            style="margin-top: 1.5rem;">
+        ⬇️ Download File
+    </button>
+    
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="/" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">
+            ← Back to Home
+        </a>
+    </div>
+</div>
+
+<div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 0.75rem;">
+    <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Privacy Notice</h3>
+    <ul style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; padding-left: 1.5rem;">
+        <li>Files are stored temporarily and automatically deleted</li>
+        <li>No tracking or logging of downloads</li>
+        <li>All transfers happen over secure connections</li>
+        <li>We never access or scan your files</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.body.dataset.expiry = '{{ file.expiry_type }}';
+</script>
+{% endblock %}

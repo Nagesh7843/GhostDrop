@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="header">
+    <div class="logo">
+        <span class="logo-icon">👻</span>
+        <h1>GhostDrop</h1>
+    </div>
+    <p class="tagline">Temporary, private, no-login file transfer</p>
+    
+    <div class="features">
+        <div class="feature">
+            <span class="feature-icon">✓</span>
+            <span>No account required</span>
+        </div>
+        <div class="feature">
+            <span class="feature-icon">✓</span>
+            <span>Auto deletion</span>
+        </div>
+        <div class="feature">
+            <span class="feature-icon">✓</span>
+            <span>Privacy first</span>
+        </div>
+        <div class="feature">
+            <span class="feature-icon">✓</span>
+            <span>Secure random access</span>
+        </div>
+    </div>
+</header>
+
+<div class="card">
+    <h2 style="margin-bottom: 1.5rem; text-align: center;">Get Started</h2>
+    
+    <!-- Upload Section -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <a href="/upload" class="btn btn-primary btn-block" style="max-width: 300px;">
+            📤 Upload a File
+        </a>
+        <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+            Files are automatically deleted after expiry. No permanent storage.
+        </p>
+    </div>
+    
+    <!-- Divider -->
+    <div style="text-align: center; margin: 2rem 0; color: var(--text-muted);">
+        <span style="padding: 0 1rem; background: var(--bg-card);">OR</span>
+        <hr style="margin-top: -1.2rem; border: none; border-top: 1px solid var(--border);">
+    </div>
+    
+    <!-- Download Section -->
+    <div style="max-width: 400px; margin: 0 auto;">
+        <h3 style="text-align: center; margin-bottom: 1rem; font-size: 1.2rem;">Download a File</h3>
+        <form id="download-form" style="display: flex; gap: 0.5rem;">
+            <input type="text" id="code-input" placeholder="123456" inputmode="numeric"
+                   class="input-field" style="flex: 1; text-align: center; font-size: 1.3rem; letter-spacing: 0.3em;" 
+                   maxlength="6" pattern="[0-9]{6}" autocomplete="off" required>
+            <button type="submit" class="btn btn-primary" style="padding: 0.875rem 1.5rem;">
+                📥 Download
+            </button>
+        </form>
+        <p style="text-align: center; margin-top: 0.75rem; color: var(--text-muted); font-size: 0.85rem;">
+            Enter the 6-digit numeric code
+        </p>
+    </div>
+</div>
+
+<div style="margin-top: 3rem; padding: 2rem; text-align: center; color: var(--text-muted);">
+    <h3 style="margin-bottom: 1rem; color: var(--text);">How It Works</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">1️⃣</div>
+            <strong style="color: var(--text);">Upload File</strong>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Choose your file and set expiry options</p>
+        </div>
+        <div>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">2️⃣</div>
+            <strong style="color: var(--text);">Get Numeric Code</strong>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Receive a simple 6-digit number</p>
+        </div>
+        <div>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">3️⃣</div>
+            <strong style="color: var(--text);">Enter Code & Download</strong>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Recipient enters code on homepage to download</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

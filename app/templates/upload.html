@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Upload File - GhostDrop{% endblock %}
+
+{% block content %}
+<header class="header">
+    <div class="logo">
+        <span class="logo-icon">👻</span>
+        <h1>GhostDrop</h1>
+    </div>
+</header>
+
+<!-- Upload Section -->
+<div id="upload-section" class="card">
+    <h2 style="margin-bottom: 1.5rem;">Upload File</h2>
+    
+    <form id="upload-form" method="POST" enctype="multipart/form-data">
+        <!-- File Selection -->
+        <div class="form-group">
+            <div id="upload-area" class="file-upload-area">
+                <div class="upload-icon">📁</div>
+                <div class="file-upload-text">Click or drag file to upload</div>
+                <div class="file-upload-hint">Maximum file size: 50MB</div>
+            </div>
+            <input type="file" id="file-input" name="file" required>
+            
+            <div id="file-selected" class="file-selected hidden">
+                <div>📄</div>
+                <div class="file-info">
+                    <div class="file-name" id="file-name"></div>
+                    <div class="file-size" id="file-size"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Expiry Mode -->
+        <div class="form-group">
+            <label class="form-label">Expiry Mode</label>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" id="mode-onetime" name="expiry_mode" value="onetime" checked>
+                    <label for="mode-onetime" class="radio-label">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔥</div>
+                        <strong>One-Time</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            Delete after first download
+                        </div>
+                    </label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="mode-time" name="expiry_mode" value="time">
+                    <label for="mode-time" class="radio-label">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⏳</div>
+                        <strong>Time-Based</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            Delete after set time
+                        </div>
+                    </label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="mode-download" name="expiry_mode" value="download">
+                    <label for="mode-download" class="radio-label">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📉</div>
+                        <strong>Download Limit</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            Delete after X downloads
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Time Options -->
+        <div id="time-options" class="form-group hidden">
+            <label class="form-label" for="expiry-time">Expiry Time</label>
+            <select id="expiry-time" name="expiry_time" class="input-field">
+                <option value="1hour">1 Hour</option>
+                <option value="6hours">6 Hours</option>
+                <option value="1day" selected>1 Day</option>
+                <option value="3days">3 Days</option>
+                <option value="7days">7 Days</option>
+            </select>
+        </div>
+        
+        <!-- Download Limit Options -->
+        <div id="download-options" class="form-group hidden">
+            <label class="form-label" for="max-downloads">Maximum Downloads</label>
+            <input type="number" id="max-downloads" name="max_downloads" class="input-field" 
+                   min="1" max="100" value="5" placeholder="e.g., 5">
+            <span class="form-hint">Between 1 and 100 downloads</span>
+        </div>
+        
+        <!-- Password Protection -->
+        <div class="form-group">
+            <label class="form-label" for="password">Password Protection (Optional)</label>
+            <input type="password" id="password" name="password" class="input-field" 
+                   placeholder="Leave empty for no password">
+            <span class="form-hint">Add a password for extra security</span>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block">
+            🚀 Generate Secure Code
+        </button>
+    </form>
+</div>
+
+<!-- Success Section (Hidden by default) -->
+<div id="success-section" class="card hidden">
+    <div class="success-icon">✅</div>
+    <h2 style="text-align: center; margin-bottom: 1rem;">File Uploaded Successfully!</h2>
+    
+    <div class="code-display">
+        <div class="code-label">Your Secure Access Code</div>
+        <div class="code-value" id="success-code"></div>
+    </div>
+    
+    <div class="alert alert-success">
+        <span>✓</span>
+        <div>
+            <strong>Share this code with the recipient</strong>
+            <div style="font-size: 0.9rem; margin-top: 0.25rem;">
+                File: <span id="success-filename"></span> (<span id="success-size"></span>)
+            </div>
+        </div>
+    </div>
+    
+    <div id="success-password-notice" class="alert alert-warning hidden">
+        <span>🔒</span>
+        <span>This file is password-protected. Make sure to share the password separately.</span>
+    </div>
+    
+    <div style="text-align: center; margin: 1.5rem 0;">
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">The recipient can download by entering this code on the homepage</p>
+        <button type="button" class="btn btn-secondary" 
+                onclick="copyToClipboard(document.getElementById('success-code').textContent, this)">
+            📋 Copy Code
+        </button>
+    </div>
+    
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <a href="/upload" class="btn btn-primary" style="flex: 1;">Upload Another File</a>
+        <a href="/" class="btn btn-secondary" style="flex: 1;">Go Home</a>
+    </div>
+</div>
+{% endblock %}

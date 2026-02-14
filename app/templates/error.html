@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{{ error }} - GhostDrop{% endblock %}
+
+{% block content %}
+<header class="header">
+    <div class="logo">
+        <span class="logo-icon">👻</span>
+        <h1>GhostDrop</h1>
+    </div>
+</header>
+
+<div class="card" style="text-align: center;">
+    <div style="font-size: 5rem; margin-bottom: 1rem;">
+        {% if '404' in error %}
+            🔍
+        {% elif 'expired' in error.lower() or '410' in error %}
+            ⏰
+        {% else %}
+            ⚠️
+        {% endif %}
+    </div>
+    
+    <h2 style="margin-bottom: 1rem; color: var(--danger);">{{ error }}</h2>
+    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">{{ message }}</p>
+    
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn btn-primary">Go Home</a>
+        <a href="/upload" class="btn btn-secondary">Upload a File</a>
+    </div>
+</div>
+
+<div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+    <p>Common reasons for this error:</p>
+    <ul style="list-style: none; padding: 0; margin-top: 1rem; line-height: 2;">
+        <li>• The file has expired and been automatically deleted</li>
+        <li>• The download limit has been reached</li>
+        <li>• The access code is incorrect</li>
+        <li>• It was a one-time download that has already been used</li>
+    </ul>
+</div>
+{% endblock %}
