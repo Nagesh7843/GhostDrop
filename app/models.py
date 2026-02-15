@@ -20,7 +20,8 @@ class FileModel:
             # Index on created_at for analytics
             self.collection.create_index('created_at')
         except Exception as e:
-            print(f"Warning: Could not create indexes: {e}")
+            # Don't block startup on index creation
+            pass
     
     def create_file_entry(self, code, filename, file_path, file_size, 
                          expiry_type, expiry_value, max_downloads=None, 
@@ -155,7 +156,13 @@ class DatabaseManager:
     """Manages database connection and models"""
     
     def __init__(self, uri, db_name):
-        self.client = MongoClient(uri)
+        # Shorter timeout for cloud deployments
+        self.client = MongoClient(
+            uri,
+            serverSelectionTimeoutMS=10000,  # 10 seconds instead of 30
+            connectTimeoutMS=10000,
+            socketTimeoutMS=10000
+        )
         self.db = self.client[db_name]
         self.files = FileModel(self.db)
     
