@@ -28,7 +28,7 @@
 
 ```
 Key: MONGODB_URI
-Value: mongodb+srv://gnagesh550_db_user:nagesh7843@cluster0.j1i5ch9.mongodb.net/?appName=Cluster0
+Value: mongodb+srv://gnagesh550_db_user:nagesh7843@cluster0.j1i5ch9.mongodb.net/ghostdrop?retryWrites=false&w=majority&authSource=admin&tlsAllowInvalidCertificates=true
 ```
 
 ```
