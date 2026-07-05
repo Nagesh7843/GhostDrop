@@ -17,16 +17,13 @@ def create_app(config_name='default'):
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     
     # Initialize database
-    db_manager = DatabaseManager(
-        app.config['MONGODB_URI'],
-        app.config['MONGODB_DB_NAME']
-    )
+    db_manager = DatabaseManager(app.config['DATABASE_PATH'])
     
     # Test database connection
     if not db_manager.ping():
-        print("⚠ Warning: Could not connect to MongoDB. Make sure MongoDB is running.")
+        print("⚠ Warning: Could not connect to database.")
     else:
-        print("✓ Connected to MongoDB")
+        print("✓ Connected to database")
     
     # Initialize rate limiter
     rate_limiter = RateLimiter()
@@ -40,7 +37,7 @@ def create_app(config_name='default'):
     app.register_blueprint(main_bp)
     
     # Initialize cleanup manager
-    cleanup_manager = CleanupManager(app, db_manager.db)
+    cleanup_manager = CleanupManager(app, db_manager)
     cleanup_manager.start()
     app.config['CLEANUP_MANAGER'] = cleanup_manager
     

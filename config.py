@@ -6,9 +6,8 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024  # 50MB max file size
     
-    # MongoDB
-    MONGODB_URI = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/')
-    MONGODB_DB_NAME = os.environ.get('MONGODB_DB_NAME', 'ghostdrop')
+    # SQLite Database
+    DATABASE_PATH = os.environ.get('DATABASE_PATH', os.path.join(os.path.dirname(__file__), 'ghostdrop.db'))
     
     # File Storage
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')

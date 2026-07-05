@@ -3,11 +3,8 @@ Test script to verify GhostDrop installation and basic functionality
 """
 import os
 import sys
-<<<<<<< HEAD
 from dotenv import load_dotenv
 load_dotenv()
-=======
->>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
 
 def test_imports():
     """Test all required imports"""
@@ -122,25 +119,19 @@ def test_app_creation():
         print(f"   ✗ App creation error: {e}")
         return False
 
-def test_mongodb_connection():
-    """Test MongoDB connection"""
-    print("\n🧪 Testing MongoDB connection...")
+def test_database_connection():
+    """Test SQLite database connection"""
+    print("\n🧪 Testing SQLite database connection...")
     try:
-        from pymongo import MongoClient
-<<<<<<< HEAD
-        db_uri = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/')
-        client = MongoClient(db_uri, serverSelectionTimeoutMS=5000)
-=======
-        client = MongoClient('mongodb://localhost:27017/', serverSelectionTimeoutMS=2000)
->>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
-        client.admin.command('ping')
-        print("   ✓ MongoDB is running and accessible")
-        client.close()
+        import sqlite3
+        db_path = os.environ.get('DATABASE_PATH', 'ghostdrop.db')
+        conn = sqlite3.connect(db_path)
+        conn.execute('SELECT 1')
+        conn.close()
+        print("   ✓ SQLite database is accessible and functional")
         return True
     except Exception as e:
-        print(f"   ⚠ MongoDB connection failed: {e}")
-        print("   → Make sure MongoDB is installed and running")
-        print("   → Start with: net start MongoDB (Windows)")
+        print(f"   ⚠ SQLite database connection failed: {e}")
         return False
 
 def main():
@@ -156,7 +147,7 @@ def main():
         test_env_file,
         test_config,
         test_app_creation,
-        test_mongodb_connection
+        test_database_connection
     ]
     
     results = []

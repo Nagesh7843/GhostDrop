@@ -1,4 +1,4 @@
-"""Automatic cleanup of expired files"""
+"""Automatic cleanup of expired files using SQLite backend"""
 import os
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -7,9 +7,9 @@ from app.utils.file_handler import FileManager
 class CleanupManager:
     """Manages automatic cleanup of expired files"""
     
-    def __init__(self, app, db):
+    def __init__(self, app, db_manager):
         self.app = app
-        self.db = db
+        self.db_manager = db_manager
         self.scheduler = BackgroundScheduler()
         self.upload_folder = app.config['UPLOAD_FOLDER']
     
@@ -39,12 +39,8 @@ class CleanupManager:
         """Remove expired files from database and filesystem"""
         with self.app.app_context():
             try:
-                current_time = datetime.utcnow()
-                
                 # Find expired files
-                expired_files = self.db.files.find({
-                    'expires_at': {'$lt': current_time}
-                })
+                expired_files = self.db_manager.files.get_expired_files()
                 
                 deleted_count = 0
                 for file_doc in expired_files:
@@ -53,14 +49,18 @@ class CleanupManager:
                     FileManager.delete_file(file_path)
                     
                     # Delete database entry
-                    self.db.files.delete_one({'_id': file_doc['_id']})
+                    self.db_manager.files.hard_delete_file(file_doc['code'])
                     deleted_count += 1
                 
                 if deleted_count > 0:
                     print(f"✓ Cleanup: Removed {deleted_count} expired file(s)")
                 
                 # Also cleanup orphaned files (files without DB entry)
-                valid_filenames = {doc['file_path'] for doc in self.db.files.find({}, {'file_path': 1})}
+                with self.db_manager.get_connection() as conn:
+                    cursor = conn.cursor()
+                    cursor.execute('SELECT file_path FROM files')
+                    valid_filenames = {row['file_path'] for row in cursor.fetchall()}
+                    
                 orphaned_count = FileManager.cleanup_orphaned_files(self.upload_folder, valid_filenames)
                 
                 if orphaned_count > 0:
@@ -73,14 +73,14 @@ class CleanupManager:
         """Manually cleanup a specific file by code"""
         with self.app.app_context():
             try:
-                file_doc = self.db.files.find_one({'code': code})
+                file_doc = self.db_manager.files.get_file_by_code(code)
                 if file_doc:
                     # Delete physical file
                     file_path = os.path.join(self.upload_folder, file_doc['file_path'])
                     FileManager.delete_file(file_path)
                     
                     # Delete database entry
-                    self.db.files.delete_one({'code': code})
+                    self.db_manager.files.hard_delete_file(code)
                     return True, "File deleted successfully"
                 return False, "File not found"
             except Exception as e:

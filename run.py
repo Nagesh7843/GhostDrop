@@ -1,10 +1,11 @@
 """GhostDrop - Main application entry point"""
 import os
 from dotenv import load_dotenv
-from app import create_app
 
 # Load environment variables
 load_dotenv()
+
+from app import create_app
 
 # Determine configuration
 config_name = os.environ.get('FLASK_ENV', 'development')
