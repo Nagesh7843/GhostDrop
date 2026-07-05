@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: ghostdrop-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ghostdrop
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ghostdrop-network
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # GhostDrop Application
+  app:
+    build: .
+    container_name: ghostdrop-app
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=${SECRET_KEY}
+      - MONGODB_URI=mongodb://mongodb:27017/
+      - MONGODB_DB_NAME=ghostdrop
+      - MAX_CONTENT_LENGTH=52428800
+      - MAX_REQUESTS_PER_MINUTE=10
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - ghostdrop-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  ghostdrop-network:
+    driver: bridge
