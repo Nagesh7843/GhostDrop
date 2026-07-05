@@ -5,12 +5,17 @@
 {% block content %}
 <header class="header">
     <div class="logo">
+<<<<<<< HEAD
         <i class="fa-solid fa-ghost logo-icon"></i>
+=======
+        <span class="logo-icon">👻</span>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
         <h1>GhostDrop</h1>
     </div>
 </header>
 
 <div class="card" style="text-align: center;">
+<<<<<<< HEAD
     <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
         {% if '404' in error %}
             <i class="fa-solid fa-magnifying-glass" style="font-size: 4.5rem; color: var(--primary); filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.25));"></i>
@@ -41,6 +46,34 @@
         <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-minus" style="color: var(--danger); margin-right: 0.5rem; font-size: 0.85rem;"></i> The maximum download limit has been reached</li>
         <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-minus" style="color: var(--danger); margin-right: 0.5rem; font-size: 0.85rem;"></i> The 6-digit access code is incorrect</li>
         <li><i class="fa-solid fa-circle-minus" style="color: var(--danger); margin-right: 0.5rem; font-size: 0.85rem;"></i> This was a one-time download file that has already been retrieved</li>
+=======
+    <div style="font-size: 5rem; margin-bottom: 1rem;">
+        {% if '404' in error %}
+            🔍
+        {% elif 'expired' in error.lower() or '410' in error %}
+            ⏰
+        {% else %}
+            ⚠️
+        {% endif %}
+    </div>
+    
+    <h2 style="margin-bottom: 1rem; color: var(--danger);">{{ error }}</h2>
+    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">{{ message }}</p>
+    
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn btn-primary">Go Home</a>
+        <a href="/upload" class="btn btn-secondary">Upload a File</a>
+    </div>
+</div>
+
+<div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+    <p>Common reasons for this error:</p>
+    <ul style="list-style: none; padding: 0; margin-top: 1rem; line-height: 2;">
+        <li>• The file has expired and been automatically deleted</li>
+        <li>• The download limit has been reached</li>
+        <li>• The access code is incorrect</li>
+        <li>• It was a one-time download that has already been used</li>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
     </ul>
 </div>
 {% endblock %}

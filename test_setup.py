@@ -3,8 +3,11 @@ Test script to verify GhostDrop installation and basic functionality
 """
 import os
 import sys
+<<<<<<< HEAD
 from dotenv import load_dotenv
 load_dotenv()
+=======
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
 
 def test_imports():
     """Test all required imports"""
@@ -124,8 +127,12 @@ def test_mongodb_connection():
     print("\n🧪 Testing MongoDB connection...")
     try:
         from pymongo import MongoClient
+<<<<<<< HEAD
         db_uri = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/')
         client = MongoClient(db_uri, serverSelectionTimeoutMS=5000)
+=======
+        client = MongoClient('mongodb://localhost:27017/', serverSelectionTimeoutMS=2000)
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
         client.admin.command('ping')
         print("   ✓ MongoDB is running and accessible")
         client.close()

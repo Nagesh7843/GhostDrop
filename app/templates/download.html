@@ -5,29 +5,48 @@
 {% block content %}
 <header class="header">
     <div class="logo">
+<<<<<<< HEAD
         <i class="fa-solid fa-ghost logo-icon"></i>
+=======
+        <span class="logo-icon">👻</span>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
         <h1>GhostDrop</h1>
     </div>
 </header>
 
 <div class="card">
     <div class="file-preview">
+<<<<<<< HEAD
         <i class="fa-solid fa-file-shield file-icon" style="filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.2));"></i>
         <h2 style="font-family: 'Outfit', sans-serif; margin-bottom: 0.25rem;">{{ file.original_filename }}</h2>
         <p style="color: var(--text-secondary); font-size: 1.05rem; font-weight: 500;">{{ file.file_size_human }}</p>
+=======
+        <div class="file-icon">📄</div>
+        <h2>{{ file.original_filename }}</h2>
+        <p style="color: var(--text-muted); margin-top: 0.5rem;">{{ file.file_size_human }}</p>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
     </div>
     
     <div class="file-details">
         <div class="detail-row">
+<<<<<<< HEAD
             <span class="detail-label"><i class="fa-regular fa-calendar-check" style="margin-right: 0.5rem; opacity: 0.7;"></i> Uploaded</span>
             <span class="detail-value">{{ file.created_at.strftime('%Y-%m-%d %H:%M UTC') }}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label"><i class="fa-regular fa-clock" style="margin-right: 0.5rem; opacity: 0.7;"></i> Expires</span>
+=======
+            <span class="detail-label">Uploaded</span>
+            <span class="detail-value">{{ file.created_at.strftime('%Y-%m-%d %H:%M UTC') }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Expires</span>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
             <span class="detail-value">{{ file.expires_at.strftime('%Y-%m-%d %H:%M UTC') }}</span>
         </div>
         {% if file.expiry_type == 'onetime' %}
         <div class="detail-row">
+<<<<<<< HEAD
             <span class="detail-label"><i class="fa-solid fa-bolt" style="margin-right: 0.5rem; opacity: 0.7;"></i> Expiry Rule</span>
             <span class="detail-value" style="color: var(--accent);"><i class="fa-solid fa-fire"></i> One-Time Download</span>
         </div>
@@ -35,34 +54,61 @@
         <div class="detail-row">
             <span class="detail-label"><i class="fa-solid fa-circle-down" style="margin-right: 0.5rem; opacity: 0.7;"></i> Downloads</span>
             <span class="detail-value">{{ file.current_downloads }} / {{ file.max_downloads }} caps</span>
+=======
+            <span class="detail-label">Type</span>
+            <span class="detail-value" style="color: var(--warning);">🔥 One-Time Download</span>
+        </div>
+        {% elif file.expiry_type == 'download' %}
+        <div class="detail-row">
+            <span class="detail-label">Downloads</span>
+            <span class="detail-value">{{ file.current_downloads }} / {{ file.max_downloads }}</span>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
         </div>
         {% endif %}
         {% if file.password_protected %}
         <div class="detail-row">
+<<<<<<< HEAD
             <span class="detail-label"><i class="fa-solid fa-shield-halved" style="margin-right: 0.5rem; opacity: 0.7;"></i> Protection</span>
             <span class="detail-value" style="color: var(--warning);"><i class="fa-solid fa-lock"></i> Password Protected</span>
+=======
+            <span class="detail-label">Protection</span>
+            <span class="detail-value" style="color: var(--warning);">🔒 Password Required</span>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
         </div>
         {% endif %}
     </div>
     
     {% if file.expiry_type == 'onetime' %}
     <div class="alert alert-warning" style="margin-top: 1.5rem;">
+<<<<<<< HEAD
         <i class="fa-solid fa-triangle-exclamation"></i>
         <span><strong>One-Time Download Notice:</strong> Once this download is initiated, the physical file and metadata will be instantly destroyed from the server.</span>
+=======
+        <span>⚠</span>
+        <span><strong>One-time download:</strong> This file will be permanently deleted after downloading.</span>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
     </div>
     {% endif %}
     
     {% if file.password_protected %}
+<<<<<<< HEAD
     <div class="form-group" style="margin-top: 1.75rem;">
         <label class="form-label" for="download-password">File Decryption Password</label>
         <input type="password" id="download-password" class="input-field" 
                placeholder="Enter the secure file password">
+=======
+    <div class="form-group" style="margin-top: 1.5rem;">
+        <label class="form-label" for="download-password">Enter Password</label>
+        <input type="password" id="download-password" class="input-field" 
+               placeholder="Enter the file password">
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
     </div>
     {% endif %}
     
     <button id="download-btn" class="btn btn-primary btn-block" 
             data-code="{{ code }}" 
             data-expiry="{{ file.expiry_type }}"
+<<<<<<< HEAD
             style="margin-top: 1.75rem;">
         <i class="fa-solid fa-circle-down"></i> Retrieve & Decrypt File
     </button>
@@ -70,10 +116,20 @@
     <div style="text-align: center; margin-top: 2rem;">
         <a href="/" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.6rem 1.25rem;">
             <i class="fa-solid fa-house"></i> Back to Home
+=======
+            style="margin-top: 1.5rem;">
+        ⬇️ Download File
+    </button>
+    
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="/" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">
+            ← Back to Home
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
         </a>
     </div>
 </div>
 
+<<<<<<< HEAD
 <div style="margin-top: 2rem; padding: 1.75rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 0.75rem; backdrop-filter: blur(10px);">
     <h3 style="margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
         <i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> Privacy & Security Notice
@@ -83,6 +139,15 @@
         <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> No user tracking, analytics, cookies or file logs</li>
         <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> End-to-end HTTPS secure network tunnels</li>
         <li><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> File indexes are shielded against public search crawls</li>
+=======
+<div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 0.75rem;">
+    <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Privacy Notice</h3>
+    <ul style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; padding-left: 1.5rem;">
+        <li>Files are stored temporarily and automatically deleted</li>
+        <li>No tracking or logging of downloads</li>
+        <li>All transfers happen over secure connections</li>
+        <li>We never access or scan your files</li>
+>>>>>>> c851f0e95d94aab10b191df66619f5685f537bbf
     </ul>
 </div>
 {% endblock %}
